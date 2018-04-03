@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.orangesoda">
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/org1"
@@ -9,6 +18,8 @@
         android:roundIcon="@mipmap/org1"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <meta-data android:name="com.baidu.lbsapi.API_KEY"
+                android:value="sXkYS1DfSjPiFnk1RPSP3lLugP5DGnZS"/>
         <activity android:name=".MainActivity" />
         <activity android:name=".WelcomeActivity">
             <intent-filter>
@@ -22,10 +33,13 @@
         <activity android:name=".Ui.MainDrawerLayout" />
         <activity android:name=".Ui.MainListActivity" />
         <activity android:name=".Ui.SettingActivity" />
-        <activity android:name=".Ui.TextEditActivity"
-            >
+        <activity android:name=".Ui.TextEditActivity"></activity>
+        <activity android:name=".Ui.BaiduMapActivity"></activity>
+        <service android:name="com.baidu.location.f"
+                  android:enabled="true"
+                android:process=":remote">
+        </service>
 
-        </activity>
     </application>
 
 </manifest>
