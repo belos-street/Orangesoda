@@ -44,22 +44,12 @@
             android:id="@+id/textView18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/imageButton9"
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:text="Orange Note"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
-
-        <ImageButton
-            android:id="@+id/imageButton9"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignBottom="@+id/main_head"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/soso" />
 
     </RelativeLayout>
 
@@ -67,7 +57,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycle_view"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="431dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
@@ -76,11 +66,11 @@
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/relativeLayout2"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="@+id/relativeLayout2"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
-        app:layout_constraintVertical_bias="0.047">
+        app:layout_constraintVertical_bias="1.0">
 
     </android.support.v7.widget.RecyclerView>
 
@@ -96,6 +86,16 @@
         app:layout_constraintRight_toRightOf="parent"
         app:rippleColor="#ba513e"
         app:srcCompat="@drawable/add1" />
+
+    <ImageButton
+        android:id="@+id/imageButton9"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/main_head"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/soso"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="92dp" />
 
 
 </android.support.constraint.ConstraintLayout>

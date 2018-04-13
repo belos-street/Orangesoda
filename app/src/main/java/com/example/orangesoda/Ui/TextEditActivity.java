@@ -1,31 +1,41 @@
 package com.example.orangesoda.Ui;
 
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.orangesoda.Adapter.Notebook;
+import com.example.orangesoda.Adapter.NoteAdapter;
+import com.example.orangesoda.Db.NoteBook;
 import com.example.orangesoda.R;
 
-import java.util.zip.InflaterInputStream;
+import java.util.Date;
 
 public class TextEditActivity extends  TitleInit implements View.OnClickListener{
     public   TextInputEditText tv_input_title,tv_input_content;
     public   TextView tx_save;
-    public   String edit_title,edit_content;
-    Notebook notebook;
+    private int activityName;
+    private int notebookID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text_edit);
         initTitleBar("编辑内容");
-        notebook = new Notebook();
-        initView();
 
+        initView();
+        Intent intent = getIntent();
+        activityName = intent.getIntExtra("ActivityName", 0);//判断是哪个intent跳转的
+
+        //修改便签的事件
+        if (activityName == NoteAdapter.NAME){
+            NoteBook noteBook = (NoteBook) intent.getSerializableExtra("Content");
+            tv_input_title.setText(noteBook.getTitle());
+            tv_input_content.setText(noteBook.getContent());//填入已有的数据
+            notebookID = noteBook.getId();
+        }
     }
     public void initView(){
          tx_save = (TextView)findViewById(R.id.custom_text);
@@ -37,23 +47,24 @@ public class TextEditActivity extends  TitleInit implements View.OnClickListener
        tv_input_content = (TextInputEditText)findViewById(R.id.text_edit_content);
 
     }
-public void initData(){
-     edit_title = tv_input_title.getEditableText().toString();
+    public  void setData(){
+        NoteBook noteBook = new NoteBook();
+        noteBook.setTitle(tv_input_title.getText().toString());
+        noteBook.setContent(tv_input_content.getText().toString());
+        noteBook.setDate(new Date());
+        noteBook.save();
 
-     edit_content = tv_input_content.getEditableText().toString();
 
-    SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
-    editor.putString("title",edit_title);
-    editor.putString("content",edit_content);
-    editor.apply();
-}
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.custom_rl_tv:
-                initData();
-              finish();
+            setData();
+             finish();
                 break;
         }
     }
+
 }

@@ -1,0 +1,7 @@
+<litepal>
+    <dbname value ="OrangeNote.db"></dbname>
+    <version value ="1"></version>
+    <list>
+        <mapping class ="com.example.orangesoda.Db.NoteBook"></mapping>
+    </list>
+</litepal>

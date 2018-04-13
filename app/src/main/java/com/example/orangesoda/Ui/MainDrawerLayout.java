@@ -1,56 +1,56 @@
 package com.example.orangesoda.Ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.orangesoda.Adapter.NoteAdapter;
-import com.example.orangesoda.Adapter.Notebook;
-import com.example.orangesoda.AddActivity;
-import com.example.orangesoda.Db.NotebookDatabaseHelper;
-import com.example.orangesoda.MainActivity;
+import com.example.orangesoda.Db.NoteBook;
 import com.example.orangesoda.R;
+
+import org.litepal.LitePal;
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainDrawerLayout extends TitleInit {
-    private List notebookList = new ArrayList<>();
+    private List<NoteBook> notebookAddList = new ArrayList<>();
     private DrawerLayout drawer;
+    public final static int NAME = 0;
+    public final static int DISPLAY_MODE = 0;
+    public NoteAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_drawer_layout_activity);
         immersionSystemBar();
+        LitePal.getDatabase();
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        notebookAddList = DataSupport.findAll(NoteBook.class);
         RecyclerView recyclerView =(RecyclerView)findViewById(R.id.recycle_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        NoteAdapter adapter = new NoteAdapter(getApplicationContext(),notebookList);
+        adapter = new NoteAdapter(getApplicationContext(),notebookAddList);
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
         FloatingActionButton floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainDrawerLayout.this,TextEditActivity.class);
+                Intent intent = new Intent(MainDrawerLayout.this, TextEditActivity.class);
+                intent.putExtra("ActivityName", NAME);
                 startActivity(intent);
-                notebookList.add("");
-
             }
         });
-        adapter.notifyDataSetChanged();
-      //  init();
-
     }
 
     public void onBackPressed() {
@@ -82,12 +82,15 @@ public class MainDrawerLayout extends TitleInit {
                 break;
             default:
                 break;
+
         }
     }
-//   private  void init(){
-//        for(int i = 0 ;i<9;i++){
-//            notebookList.add(i);
-//        }
-//   }
+
+    @Override
+    protected void onRestart() {
+        adapter.notifyDataSetChanged();
+        super.onRestart();
+    }
+
 
 }

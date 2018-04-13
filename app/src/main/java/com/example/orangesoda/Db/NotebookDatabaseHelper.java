@@ -11,7 +11,8 @@ import android.widget.Toast;
 
 public class NotebookDatabaseHelper extends SQLiteOpenHelper{
 
-    public static  final  String CREATE_NOTEBOOK="create table notebook("+"name text"+"content text)";
+    public static  final  String CREATE_NOTEBOOK="create table Notebook("+"title text"
+                                                                         +"content text)";
     private  Context mContext;
     public NotebookDatabaseHelper(Context context,String name,SQLiteDatabase.CursorFactory factory,int version){
         super(context,name,factory,version);
@@ -20,6 +21,7 @@ public class NotebookDatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_NOTEBOOK);
+        Toast.makeText(mContext,"Create Succeeded！",Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

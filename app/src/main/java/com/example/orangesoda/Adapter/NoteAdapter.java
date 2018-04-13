@@ -3,6 +3,8 @@ package com.example.orangesoda.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,9 +14,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.orangesoda.Db.NoteBook;
+import com.example.orangesoda.Db.NotebookDatabaseHelper;
 import com.example.orangesoda.R;
 import com.example.orangesoda.Ui.TextEditActivity;
 
+import org.litepal.crud.DataSupport;
+
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -24,8 +31,11 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
-    private List<String> mNotebookList;
+    public final static int NAME = 1;//用来判断是哪个intent跳转的
+    private List<NoteBook> mNotebookList;
     public  Context mContext;
+    private List<NoteBook> readNoteList;
+
     static class ViewHolder extends  RecyclerView.ViewHolder{
         private  RelativeLayout text_rl;
         TextView text_time,text_title,text_content,text_number;
@@ -42,7 +52,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
         }
 
     }
-    public  NoteAdapter(Context context,List<String> NotebookList){
+    public  NoteAdapter(Context context,List NotebookList){
         mContext = context;
         mNotebookList = NotebookList;
     }
@@ -55,27 +65,34 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.notebook_item,parent,false);
-        ViewHolder holder = new ViewHolder(view);
+        final ViewHolder holder = new ViewHolder(view);
+        holder.text_title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = holder.getAdapterPosition();
+                NoteBook noteBook= mNotebookList.get(position);
+                Intent intent = new Intent(mContext, TextEditActivity.class);
+                intent.putExtra("ActivityName", NAME);
+                intent.putExtra("Content", noteBook);
+                mContext.startActivity(intent);
+            }
+        });
         return holder;
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder,final int position) {
-        holder.text_number.setText(mNotebookList.get(position));
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences("data",MODE_PRIVATE);
-        String title = sharedPreferences.getString("title","");
-        String content = sharedPreferences.getString("content","");
-    holder.text_rl.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent_edit = new Intent(v.getContext(), TextEditActivity.class);
-             v.getContext().startActivity(intent_edit);
-        }
-    });
-      //  holder.text_number.setText(holder.getAdapterPosition());
-    //  Notebook notebook = mNotebookList.get(position);
-        holder.text_title.setText(title);
-        holder.text_content.setText(content);
+      //   holder.text_number.setText(mNotebookList.get(position).toString());
+//        int position1 = holder.getAdapterPosition();
+//        readNoteList = DataSupport.findAll(NoteBook.class);
+//        mNotebookList.clear();
+//       for(NoteBook noteBook : readNoteList){
+//         mNotebookList.add(noteBook);
+      NoteBook noteBook = mNotebookList.get(position);
+        holder.text_title.setText(noteBook.getTitle());
+        holder.text_time.setText(new SimpleDateFormat("yy/MM/dd HH:mm:ss").format(noteBook.getDate()));
+        holder.text_content.setText(noteBook.getContent());
+
     }
 
     @Override
