@@ -31,7 +31,7 @@ public class TextEditActivity extends  TitleInit implements View.OnClickListener
 
         //修改便签的事件
         if (activityName == NoteAdapter.NAME){
-            NoteBook noteBook = (NoteBook) intent.getSerializableExtra("Content");
+            NoteBook noteBook = (NoteBook) intent.getSerializableExtra("Content_title");
             tv_input_title.setText(noteBook.getTitle());
             tv_input_content.setText(noteBook.getContent());//填入已有的数据
             notebookID = noteBook.getId();
@@ -47,21 +47,31 @@ public class TextEditActivity extends  TitleInit implements View.OnClickListener
        tv_input_content = (TextInputEditText)findViewById(R.id.text_edit_content);
 
     }
-    public  void setData(){
+
+    public  void saveData(){ //保存数据
         NoteBook noteBook = new NoteBook();
         noteBook.setTitle(tv_input_title.getText().toString());
         noteBook.setContent(tv_input_content.getText().toString());
         noteBook.setDate(new Date());
         noteBook.save();
 
-
     }
-
+    public void updateDate() {
+        NoteBook noteBook = new NoteBook();
+        noteBook.setTitle(tv_input_title.getText().toString());
+       noteBook.setContent(tv_input_content.getText().toString());
+        noteBook.setDate(new Date());
+        noteBook.update(notebookID);
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.custom_rl_tv:
-            setData();
+                if (activityName == NoteAdapter.NAME) {//如果是已有的数据就更新，否则存储
+                    updateDate();
+                } else if (activityName == MainDrawerLayout.NAME) {
+                    saveData();
+                }
              finish();
                 break;
         }

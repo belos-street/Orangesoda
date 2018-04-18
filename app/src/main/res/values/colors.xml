@@ -8,7 +8,8 @@
     <color name="backGround"> #F5F5F5</color>
     <color name="white">#ffffff</color>
     <color name="orange">#d35e5a</color>
-<color name="black">#000000</color>
+    <color name="black">#000000</color>
+    <color name="yellow">#ff9d01</color>
     <color name="gray">#b3b2b2</color>
 
 </resources>
